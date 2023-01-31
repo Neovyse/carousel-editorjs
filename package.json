@@ -1,5 +1,5 @@
 {
-  "name": "@editorjs/image",
+  "name": "@artwist/carousel-editorjs",
   "version": "2.3.3",
   "keywords": [
     "codex editor",
@@ -8,10 +8,10 @@
     "editor.js",
     "editorjs"
   ],
-  "description": "Image Tool for Editor.js",
+  "description": "Carousel Tool for Editor.js",
   "license": "MIT",
-  "repository": "https://github.com/editor-js/image",
-  "main": "/home/mr9bit/work/lambda-react-redux/src/media/bundle.js",
+  "repository": "https://github.com/artwist/carousel-editorjs",
+  "main": "src/index.js",
   "scripts": {
     "build": "webpack --mode production",
     "build:dev": "webpack --mode development --watch"
