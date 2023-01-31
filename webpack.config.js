@@ -9,7 +9,7 @@ module.exports = {
         use: [
           {
             loader: 'babel-loader',
-            query: {
+            options: {
               presets: [ '@babel/preset-env' ],
             },
           },
@@ -24,17 +24,23 @@ module.exports = {
           {
             loader: 'postcss-loader',
             options: {
-              plugins: [
-                require('postcss-nested-ancestors'),
-                require('postcss-nested')
-              ]
+              postcssOptions: {
+                plugins: [
+                  require('postcss-nested-ancestors'),
+                  require('postcss-nested')
+                ]
+              }
             }
           }
         ]
       },
       {
         test: /\.svg$/,
-        loader: 'svg-inline-loader?removeSVGTagAttrs=false'
+        use: [
+          {
+            loader: 'svg-inline-loader?removeSVGTagAttrs=false'
+          }
+        ]
       }
     ]
   },
