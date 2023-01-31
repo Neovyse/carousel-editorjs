@@ -34,6 +34,7 @@
 
 .cdxcarousel-block {
     width: 50%;
+    min-height: 300px;
 }
 
 .cdxcarousel-list {
@@ -55,6 +56,7 @@
     display: flex;
     position: relative;
     flex-direction: column;
+    justify-content: space-around;
 }
 
 
