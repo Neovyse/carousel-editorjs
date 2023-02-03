@@ -13,9 +13,9 @@ export default class SimpleCarousel {
   constructor({ data, config, api }) {
     this.api = api;
     this.data = data;
-    this.IconClose = '<svg class="icon icon--cross" width="12px" height="12px"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#cross"></use></svg>';
-    this.IconLeft = '<svg class="icon " viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><path d="M351,9a15,15 0 01 19,0l29,29a15,15 0 01 0,19l-199,199l199,199a15,15 0 01 0,19l-29,29a15,15 0 01-19,0l-236-235a16,16 0 01 0-24z" /></svg>';
-    this.IconRight = '<svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><path d="M312,256l-199-199a15,15 0 01 0-19l29-29a15,15 0 01 19,0l236,235a16,16 0 01 0,24l-236,235a15,15 0 01-19,0l-29-29a15,15 0 01 0-19z" /></svg>';
+    this.IconClose = '<svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M8 8L12 12M12 12L16 16M12 12L16 8M12 12L8 16"></path></svg>';
+    this.IconLeft = '<svg class="icon" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><path d="M351,9a15,15 0 01 19,0l29,29a15,15 0 01 0,19l-199,199l199,199a15,15 0 01 0,19l-29,29a15,15 0 01-19,0l-236-235a16,16 0 01 0-24z" /></svg>';
+    this.IconRight = '<svg class="icon" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><path d="M312,256l-199-199a15,15 0 01 0-19l29-29a15,15 0 01 19,0l236,235a16,16 0 01 0,24l-236,235a15,15 0 01-19,0l-29-29a15,15 0 01 0-19z" /></svg>';
     this.config = {
       endpoints: config.endpoints || '',
       additionalRequestData: config.additionalRequestData || {},
@@ -289,7 +289,7 @@ export default class SimpleCarousel {
     const addButton = make('div', [this.CSS.button, this.CSS.addButton]);
     const block = make('div', [ this.CSS.block ]);
 
-    addButton.innerHTML = `${buttonIcon} Add Image`;
+    addButton.innerHTML = buttonIcon + ' ' + this.api.i18n.t('Add Image');
     addButton.addEventListener('click', () => {
       this.onSelectFile();
     });
