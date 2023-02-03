@@ -104,7 +104,7 @@ export default class SimpleCarousel {
     this.wrapper.appendChild(this.list);
     if (this.data.length > 0) {
       for (const load of this.data) {
-        const loadItem = this.creteNewItem(load.url, load.caption);
+        const loadItem = this.createNewItem(load);
 
         this.list.insertBefore(loadItem, this.addButton);
       }
@@ -119,11 +119,10 @@ export default class SimpleCarousel {
 
     if (list.length > 0) {
       for (const item of list) {
-        if (item.firstChild.value) {
-          data.push({
-            url: item.firstChild.value,
-            caption: item.lastChild.value
-          });
+        if (item.firstChild.value && ('file' in item.dataset)) {
+          let file = JSON.parse(item.dataset.file);
+          file.caption = item.lastChild.value;
+          data.push(file);
         }
       }
     }
@@ -134,8 +133,7 @@ export default class SimpleCarousel {
    * Create Image block
    * @public
    *
-   * @param {string} url - url of saved or upload image
-   * @param {string} caption - caption of image
+   * @param {object} data Fields: url - url of saved or upload image, caption - caption of image, any custom props
    *
    * Structure
    * <item>
@@ -147,7 +145,7 @@ export default class SimpleCarousel {
    *
    * @return {HTMLDivElement}
    */
-  creteNewItem(url, caption) {
+  createNewItem(data) {
     // Create item, remove button and field for image url
     const block = make('div', [ this.CSS.block ]);
     const item = make('div', [ this.CSS.item ]);
@@ -157,11 +155,11 @@ export default class SimpleCarousel {
     const imageUrl = make('input', [ this.CSS.inputUrl ]);
     const imagePreloader = make('div', [ this.CSS.imagePreloader ]);
 
-    imageUrl.value = url;
+    imageUrl.value = data.url || '';
     leftBtn.innerHTML = this.IconLeft;
     leftBtn.style = 'padding: 8px;';
     leftBtn.addEventListener('click', () => {
-      var index = Array.from(block.parentNode.children).indexOf(block);
+      const index = Array.from(block.parentNode.children).indexOf(block);
 
       if(index != 0) {
         block.parentNode.insertBefore(block, block.parentNode.children[index-1]);
@@ -170,7 +168,7 @@ export default class SimpleCarousel {
     rightBtn.innerHTML = this.IconRight;
     rightBtn.style = 'padding: 8px;';
     rightBtn.addEventListener('click', () => {
-      var index = Array.from(block.parentNode.children).indexOf(block);
+      const index = Array.from(block.parentNode.children).indexOf(block);
 
       if(index != block.parentNode.children.length-2) {
         block.parentNode.insertBefore(block, block.parentNode.children[index+2]);
@@ -191,11 +189,12 @@ export default class SimpleCarousel {
      * If data already yet
      * We create Image view
      */
-    if (url) {
-      this._createImage(url, item, caption, removeBtn);
+    if (data.url || '') {
+      this._createImage(data.url || '', item, data.caption || '', removeBtn);
     } else {
       item.appendChild(imagePreloader);
     }
+    item.dataset.file = JSON.stringify(data);
     return block;
   }
 
@@ -235,10 +234,12 @@ export default class SimpleCarousel {
   onUpload(response) {
     if (response.success && response.file) {
       // Берем последний созданный элемент и ставим изображение с сервера
-      this._createImage(response.file.url, this.list.childNodes[this.list.childNodes.length - 2].firstChild, '', this.list.childNodes[this.list.childNodes.length - 2].firstChild.childNodes[1]);
-      this.list.childNodes[this.list.childNodes.length - 2].firstChild.childNodes[2].style.backgroundImage = '';
-      this.list.childNodes[this.list.childNodes.length - 2].firstChild.firstChild.value = response.file.url;
-      this.list.childNodes[this.list.childNodes.length - 2].firstChild.classList.add('cdxcarousel-item--empty');
+      const item = this.list.childNodes[this.list.childNodes.length - 2].firstChild;
+      item.dataset.file = JSON.stringify(response.file);
+      this._createImage(response.file.url, item, '', item.childNodes[1]);
+      item.childNodes[2].style.backgroundImage = '';
+      item.firstChild.value = response.file.url;
+      item.classList.add('cdxcarousel-item--empty');
     } else {
       this.uploadingFailed('incorrect response: ' + JSON.stringify(response));
     }
@@ -272,7 +273,7 @@ export default class SimpleCarousel {
     // Создаем элемент
     this.uploader.uploadSelectedFile({
       onPreview: (src) => {
-        const newItem = this.creteNewItem('', '');
+        const newItem = this.createNewItem({});
 
         newItem.firstChild.lastChild.style.backgroundImage = `url(${src})`;
         this.list.insertBefore(newItem, this.addButton);
