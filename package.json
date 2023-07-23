@@ -1,5 +1,5 @@
 {
-  "name": "@artwist/carousel-editorjs",
+  "name": "@neovyse/carousel-editorjs",
   "version": "2.3.3",
   "keywords": [
     "codex editor",
@@ -10,7 +10,7 @@
   ],
   "description": "Carousel Tool for Editor.js",
   "license": "MIT",
-  "repository": "https://github.com/artwist/carousel-editorjs",
+  "repository": "https://github.com/Neovyse/carousel-editorjs",
   "main": "./dist/bundle.js",
   "scripts": {
     "build": "webpack --mode production",
