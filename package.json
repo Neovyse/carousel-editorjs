@@ -11,6 +11,9 @@
   "description": "Carousel Tool for Editor.js",
   "license": "MIT",
   "repository": "https://github.com/Neovyse/carousel-editorjs",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/neovyse"
+  },
   "main": "./dist/bundle.js",
   "scripts": {
     "build": "webpack --mode production",
